@@ -130,18 +130,26 @@ button{
 
 <script>
 
-const snakesAndLadders={
-  4:14,5:35,12:32,17:36,40:59,54:93,
-  68:88,74:97,82:91,
-  71:70,75:66,79:52,63:48,
-  43:23,22:2,18:3,34:28,65:55
-};
+const snakesAndLadders = {
+  // Ladders
+  17:37,
+  20:42,
+  27:46,
+  32:52,
+  55:75,
+  77:94,
+  81:93,
 
-let players=[];
-let positions=[1,1,1,1];  // Start directly on square 1
-let scores=[0,0,0,0];
-let currentPlayer=0;
-let moving=false;
+  // Snakes
+  22:18,
+  34:12,
+  43:23,
+  56:35,
+  64:48,
+  71:68,
+  79:62,
+  98:86
+};
 
 function startGame(){
   players=[
@@ -266,3 +274,4 @@ window.onload=()=>{
 
 </body>
 </html>
+
