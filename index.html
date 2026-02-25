@@ -150,7 +150,11 @@ const snakesAndLadders = {
   79:62,
   98:86
 };
-
+let players=[];
+let positions=[1,1,1,1];
+let scores=[0,0,0,0];
+let currentPlayer=0;
+let moving=false;
 function startGame(){
   players=[
     name1.value||"Player 1",
@@ -274,5 +278,6 @@ window.onload=()=>{
 
 </body>
 </html>
+
 
 
