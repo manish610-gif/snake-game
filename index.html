@@ -3,69 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snake & Ladder Pro</title>
+<title>Snake & Ladder - 4 Player</title>
 
 <style>
 body{
-  font-family:Arial, sans-serif;
-  text-align:center;
-  background:#eef5ef;
   margin:0;
+  font-family:Arial, sans-serif;
+  background:#eef5ef;
 }
 
-h2{margin-top:10px;}
-
-#setup{
-  margin:15px;
+.container{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+  gap:20px;
 }
 
-input{
-  padding:8px;
-  margin:5px;
-  width:140px;
-}
-
-button{
-  padding:10px 20px;
-  margin:10px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-#statusPanel{
-  display:none;
-  background:white;
-  padding:10px;
-  margin:10px auto;
-  border-radius:8px;
-  width:90%;
-  max-width:500px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
-}
-
-#game-container{
+#gameBoard{
   position:relative;
-  width:90vw;
-  max-width:600px;
-  height:90vw;
-  max-height:600px;
-  margin:20px auto;
-}
-
-#board{
-  width:100%;
-  height:100%;
-  background:url('board.png');
+  width:600px;
+  height:600px;
+  background:url("board.png");
   background-size:cover;
   border:4px solid #2c6e2f;
 }
 
 .player{
-  width:20px;
-  height:20px;
+  width:18px;
+  height:18px;
   border-radius:50%;
   position:absolute;
-  transition:all 0.4s ease;
+  transition:0.25s linear;
   z-index:5;
 }
 
@@ -74,105 +43,85 @@ button{
 #p3{background:yellow;}
 #p4{background:purple;}
 
-/* 3D Dice */
-.scene{
-  width:80px;
-  height:80px;
-  margin:15px auto;
-  perspective:600px;
-}
-
-.cube{
-  width:80px;
-  height:80px;
-  position:relative;
-  transform-style:preserve-3d;
-  transition:transform 1s;
-}
-
-.face{
-  position:absolute;
-  width:80px;
-  height:80px;
+.panel{
+  width:300px;
   background:white;
-  border:2px solid #333;
-  font-size:30px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 
-.front{transform:rotateY(0deg) translateZ(40px);}
-.back{transform:rotateY(180deg) translateZ(40px);}
-.right{transform:rotateY(90deg) translateZ(40px);}
-.left{transform:rotateY(-90deg) translateZ(40px);}
-.top{transform:rotateX(90deg) translateZ(40px);}
-.bottom{transform:rotateX(-90deg) translateZ(40px);}
+input{
+  width:100%;
+  padding:6px;
+  margin:5px 0;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+#diceBox{
+  font-size:50px;
+  text-align:center;
+  margin:10px 0;
+}
 
 #scoreBoard{
-  margin-top:10px;
+  margin-top:15px;
+  font-size:14px;
+}
+
+@media(max-width:950px){
+  .container{
+    flex-direction:column;
+    align-items:center;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h2>Snake & Ladder - 4 Player</h2>
+<div class="container">
 
-<div id="setup">
-  <input id="name1" placeholder="Player 1 Name">
-  <input id="name2" placeholder="Player 2 Name">
-  <input id="name3" placeholder="Player 3 Name">
-  <input id="name4" placeholder="Player 4 Name">
-  <br>
-  <button onclick="startGame()">Start Game</button>
-</div>
-
-<div id="statusPanel">
-  <div id="turnDisplay"></div>
-
-  <div class="scene">
-    <div class="cube" id="cube">
-      <div class="face front">1</div>
-      <div class="face back">6</div>
-      <div class="face right">3</div>
-      <div class="face left">4</div>
-      <div class="face top">5</div>
-      <div class="face bottom">2</div>
-    </div>
+  <div id="gameBoard">
+    <div id="p1" class="player"></div>
+    <div id="p2" class="player"></div>
+    <div id="p3" class="player"></div>
+    <div id="p4" class="player"></div>
   </div>
 
-  <button onclick="rollDice()">Roll Dice 🎲</button>
-  <button onclick="restartGame()">Restart</button>
+  <div class="panel">
 
-  <div id="scoreBoard"></div>
-</div>
+    <h3>Snake & Ladder</h3>
 
-<div id="game-container">
-  <div id="board"></div>
-  <div id="p1" class="player"></div>
-  <div id="p2" class="player"></div>
-  <div id="p3" class="player"></div>
-  <div id="p4" class="player"></div>
+    <input id="name1" placeholder="Player 1">
+    <input id="name2" placeholder="Player 2">
+    <input id="name3" placeholder="Player 3">
+    <input id="name4" placeholder="Player 4">
+
+    <button onclick="startGame()">Start Game</button>
+
+    <div id="turnInfo"></div>
+
+    <div id="diceBox">🎲</div>
+
+    <button onclick="rollDice()">Roll Dice</button>
+    <button onclick="restartGame()">Restart</button>
+
+    <div id="scoreBoard"></div>
+
+  </div>
+
 </div>
 
 <script>
 
-/* SAFE SOUND LOADER (won't break if files missing) */
-function loadSound(file){
-  try{
-    return new Audio(file);
-  }catch{
-    return {play:()=>{}};
-  }
-}
-
-const diceSound = loadSound("dice.mp3");
-const snakeSound = loadSound("snake.mp3");
-const ladderSound = loadSound("ladder.mp3");
-const winSound = loadSound("win.mp3");
-
-/* Your exact board mapping */
 const snakesAndLadders={
   4:14,5:35,12:32,17:36,40:59,54:93,
   68:88,74:97,82:91,
@@ -180,11 +129,11 @@ const snakesAndLadders={
   43:23,22:2,18:3,34:28,65:55
 };
 
-let positions=[1,1,1,1];
-let scores=[0,0,0,0];
 let players=[];
+let positions=[0,0,0,0];
+let scores=[0,0,0,0];
 let currentPlayer=0;
-let gameOver=false;
+let moving=false;
 
 function startGame(){
   players=[
@@ -193,87 +142,100 @@ function startGame(){
     name3.value||"Player 3",
     name4.value||"Player 4"
   ];
-
-  document.getElementById("setup").style.display="none";
-  document.getElementById("statusPanel").style.display="block";
-
   updateTurn();
   updateScore();
 }
 
-function getCoordinates(pos){
-  const boardSize=document.getElementById("game-container").offsetWidth;
-  const cellSize=boardSize/10;
+function getCoords(pos){
+  if(pos===0) return {left:-30,top:550};
+
+  const size=600;
+  const cell=size/10;
+
   let row=Math.floor((pos-1)/10);
   let col=(pos-1)%10;
+
   if(row%2===1) col=9-col;
+
   return{
-    left:col*cellSize+5,
-    top:boardSize-((row+1)*cellSize)+5
+    left:col*cell+8,
+    top:size-((row+1)*cell)+8
   };
 }
 
-function updatePlayer(i){
-  let token=document.getElementById("p"+(i+1));
-  let c=getCoordinates(positions[i]);
-  token.style.left=c.left+"px";
-  token.style.top=c.top+"px";
+function updateToken(i){
+  let t=document.getElementById("p"+(i+1));
+  let c=getCoords(positions[i]);
+  t.style.left=c.left+"px";
+  t.style.top=c.top+"px";
 }
 
 function rollDice(){
-  if(gameOver) return;
-
-  diceSound.play();
+  if(moving) return;
 
   let dice=Math.floor(Math.random()*6)+1;
-  let cube=document.getElementById("cube");
-
-  const rotations={
-    1:"rotateX(0deg) rotateY(0deg)",
-    2:"rotateX(-90deg)",
-    3:"rotateY(-90deg)",
-    4:"rotateY(90deg)",
-    5:"rotateX(90deg)",
-    6:"rotateY(180deg)"
-  };
-
-  cube.style.transform=rotations[dice];
-
-  setTimeout(()=>movePlayer(dice),1000);
+  document.getElementById("diceBox").innerText=dice;
+  moveSteps(dice);
 }
 
-function movePlayer(dice){
-  let newPos=positions[currentPlayer]+dice;
-  if(newPos<=100){
-    positions[currentPlayer]=newPos;
+function moveSteps(dice){
+  moving=true;
 
-    if(snakesAndLadders[newPos]){
-      if(snakesAndLadders[newPos]>newPos){
-        ladderSound.play();
-      }else{
-        snakeSound.play();
-      }
-      positions[currentPlayer]=snakesAndLadders[newPos];
+  let steps=0;
+  let interval=setInterval(()=>{
+
+    if(steps===dice){
+      clearInterval(interval);
+      afterMove();
+      return;
     }
+
+    if(positions[currentPlayer]<100){
+      positions[currentPlayer]++;
+      updateToken(currentPlayer);
+    }
+
+    steps++;
+
+  },250);
+}
+
+function afterMove(){
+
+  let pos=positions[currentPlayer];
+
+  if(snakesAndLadders[pos]){
+    positions[currentPlayer]=snakesAndLadders[pos];
+    updateToken(currentPlayer);
   }
 
-  updatePlayer(currentPlayer);
+  cutOpponent();
 
   if(positions[currentPlayer]===100){
-    winSound.play();
     alert(players[currentPlayer]+" Wins!");
     scores[currentPlayer]++;
     updateScore();
-    gameOver=true;
+    moving=false;
     return;
   }
 
   currentPlayer=(currentPlayer+1)%4;
   updateTurn();
+  moving=false;
+}
+
+function cutOpponent(){
+  for(let i=0;i<4;i++){
+    if(i!==currentPlayer && positions[i]===positions[currentPlayer] && positions[i]!==0){
+      positions[i]=0;
+      updateToken(i);
+      alert(players[currentPlayer]+" cut "+players[i]);
+    }
+  }
 }
 
 function updateTurn(){
-  turnDisplay.innerText="Turn: "+players[currentPlayer];
+  turnInfo.innerHTML="<b>Turn: "+players[currentPlayer]+"</b>";
 }
 
 function updateScore(){
@@ -285,17 +247,15 @@ function updateScore(){
 }
 
 function restartGame(){
-  positions=[1,1,1,1];
+  positions=[0,0,0,0];
   currentPlayer=0;
-  gameOver=false;
-  for(let i=0;i<4;i++) updatePlayer(i);
+  for(let i=0;i<4;i++) updateToken(i);
   updateTurn();
 }
 
-for(let i=0;i<4;i++) updatePlayer(i);
+for(let i=0;i<4;i++) updateToken(i);
 
 </script>
 
 </body>
-
 </html>
