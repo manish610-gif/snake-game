@@ -131,36 +131,22 @@ button{
 <script>
 
 const snakesAndLadders = {
-  // Ladders
-  17:37,
-  20:42,
-  27:46,
-  32:52,
-  55:75,
-  77:94,
-  81:93,
-
-  // Snakes
-  22:18,
-  34:12,
-  43:23,
-  56:35,
-  64:48,
-  71:68,
-  79:62,
-  98:86
+  17:37, 20:42, 27:46, 32:52, 55:75, 77:94, 81:93,
+  22:18, 34:12, 43:23, 56:35, 64:48, 71:68, 79:62, 98:86
 };
-let players=[];
-let positions=[1,1,1,1];
-let scores=[0,0,0,0];
-let currentPlayer=0;
-let moving=false;
+
+let players = [];
+let positions = [1,1,1,1];
+let scores = [0,0,0,0];
+let currentPlayer = 0;
+let moving = false;
+
 function startGame(){
-  players=[
-    name1.value||"Player 1",
-    name2.value||"Player 2",
-    name3.value||"Player 3",
-    name4.value||"Player 4"
+  players = [
+    document.getElementById("name1").value || "Player 1",
+    document.getElementById("name2").value || "Player 2",
+    document.getElementById("name3").value || "Player 3",
+    document.getElementById("name4").value || "Player 4"
   ];
   updateTurn();
   updateScore();
@@ -244,7 +230,7 @@ function afterMove(){
 function cutLogic(){
   for(let i=0;i<4;i++){
     if(i!==currentPlayer && positions[i]===positions[currentPlayer]){
-      positions[i]=1;  // Send back to start
+      positions[i]=1;
       updateToken(i);
       alert(players[currentPlayer]+" cut "+players[i]);
     }
@@ -252,7 +238,8 @@ function cutLogic(){
 }
 
 function updateTurn(){
-  turn.innerHTML="<b>Turn: "+players[currentPlayer]+"</b>";
+  document.getElementById("turn").innerHTML =
+    "<b>Turn: "+players[currentPlayer]+"</b>";
 }
 
 function updateScore(){
@@ -260,12 +247,13 @@ function updateScore(){
   players.forEach((p,i)=>{
     html+=p+" : "+scores[i]+"<br>";
   });
-  score.innerHTML=html;
+  document.getElementById("score").innerHTML=html;
 }
 
 function restart(){
   positions=[1,1,1,1];
   currentPlayer=0;
+  moving=false;
   for(let i=0;i<4;i++) updateToken(i);
   updateTurn();
 }
@@ -278,6 +266,7 @@ window.onload=()=>{
 
 </body>
 </html>
+
 
 
 
