@@ -9,15 +9,15 @@
 body{
   margin:0;
   font-family:'Segoe UI', sans-serif;
-  background:linear-gradient(135deg,#1f8f3a,#9bdc28);
+  background:#fde7f3; /* Light aesthetic pink */
 }
 
 .wrapper{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:30px;
-  padding:20px;
+  gap:40px;
+  padding:30px;
   min-height:100vh;
 }
 
@@ -29,8 +29,9 @@ body{
   aspect-ratio:1/1;
   background:url("board.png") no-repeat center;
   background-size:contain;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  border-radius:20px;
+  border:6px solid #ffffff;
+  box-shadow:0 15px 30px rgba(0,0,0,0.15);
 }
 
 /* TOKENS */
@@ -44,71 +45,77 @@ body{
   border:2px solid white;
 }
 
-#p1{background:#ff3b3b;}
-#p2{background:#1e90ff;}
-#p3{background:#ffd700;}
-#p4{background:#8a2be2;}
+#p1{background:#ff4d6d;}
+#p2{background:#4d79ff;}
+#p3{background:#ffc300;}
+#p4{background:#9b5de5;}
 
 /* PANEL */
 .panel{
-  width:330px;
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+  width:340px;
+  background:#ffffff;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.1);
+  border:2px solid #f8c8dc;
 }
 
 .panel h2{
   margin-top:0;
   text-align:center;
-  color:#1f8f3a;
+  color:#d63384;
 }
 
 input{
   width:100%;
   padding:10px;
   margin:6px 0;
-  border-radius:8px;
-  border:1px solid #ccc;
+  border-radius:10px;
+  border:1px solid #f3b6d0;
+  outline:none;
+}
+
+input:focus{
+  border-color:#d63384;
 }
 
 button{
   width:100%;
   padding:12px;
-  margin-top:8px;
+  margin-top:10px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   font-weight:bold;
   cursor:pointer;
-  background:#1f8f3a;
+  background:#d63384;
   color:white;
   transition:0.2s;
 }
 
 button:hover{
-  background:#166b2b;
+  background:#b0256b;
 }
 
 #turn{
   text-align:center;
-  margin-top:10px;
+  margin-top:12px;
   font-weight:bold;
-  color:#333;
+  color:#444;
 }
 
-/* DICE */
+/* Dice */
 .dice{
   width:80px;
   height:80px;
   margin:20px auto;
-  background:white;
-  border-radius:15px;
-  box-shadow:inset 0 0 15px rgba(0,0,0,0.2);
+  background:#ffe6f0;
+  border-radius:20px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:40px;
   font-weight:bold;
+  box-shadow:inset 0 0 15px rgba(0,0,0,0.1);
   transition:transform 0.4s ease;
 }
 
@@ -121,9 +128,22 @@ button:hover{
   100%{transform:rotate(360deg);}
 }
 
-#score{
-  margin-top:15px;
+/* Scoreboard grid */
+.scoreboard{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.scorebox{
+  background:#fff0f6;
+  padding:10px;
+  border-radius:10px;
+  text-align:center;
   font-size:14px;
+  border:1px solid #f8c8dc;
+  font-weight:600;
 }
 
 @media(max-width:1000px){
@@ -162,7 +182,13 @@ button:hover{
     <button onclick="rollDice()">Roll Dice</button>
     <button onclick="restart()">Restart</button>
 
-    <div id="score"></div>
+    <div class="scoreboard">
+      <div class="scorebox" id="score1">Player 1: 0</div>
+      <div class="scorebox" id="score2">Player 2: 0</div>
+      <div class="scorebox" id="score3">Player 3: 0</div>
+      <div class="scorebox" id="score4">Player 4: 0</div>
+    </div>
+
   </div>
 
 </div>
@@ -170,8 +196,8 @@ button:hover{
 <script>
 
 const snakesAndLadders={
-  17:37,20:42,27:46,32:52,55:75,77:94,81:93,
-  22:18,34:12,43:23,56:35,64:48,71:68,79:62,98:86
+  04:34,10:47,16:35,22:41,39:58,44:54,48:60,67:86,76:92,79:81,
+  33:09,21:03,42:14,27:05,61:45,78:53,70:57,97:74,93:73,70:57
 };
 
 let players=[];
@@ -283,11 +309,10 @@ function updateTurn(){
 }
 
 function updateScore(){
-  let html="<b>Score Board</b><br>";
-  players.forEach((p,i)=>{
-    html+=p+" : "+scores[i]+"<br>";
-  });
-  document.getElementById("score").innerHTML=html;
+  score1.innerText=players[0]+" : "+scores[0];
+  score2.innerText=players[1]+" : "+scores[1];
+  score3.innerText=players[2]+" : "+scores[2];
+  score4.innerText=players[3]+" : "+scores[3];
 }
 
 function restart(){
