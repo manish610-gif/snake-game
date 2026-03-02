@@ -64,11 +64,7 @@ body::before{
 #p2{background:#4ecdc4;}
 #p3{background:#ffe66d;}
 #p4{background:#c77dff;}
-#name1{ background:#ff6b6b; }
-#name2{ background:#4ecdc4; }
-#name3{ background:#ffe66d; color:#333; }
-#name4{ background:#c77dff; }
-  
+
 .panel{
   width:350px;
   padding:30px;
@@ -84,29 +80,57 @@ body::before{
   margin-bottom:20px;
 }
 
-select,input{
+/* Professional dropdown */
+select{
   width:100%;
-  padding:6px 10px;      /* shorter height */
-  height:34px;           /* compact */
+  height:34px;
+  padding:0 12px;
+  border-radius:14px;
+  border:none;
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  background:rgba(255,255,255,0.9);
+  color:#333;
+  cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg fill='%23333' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  background-size:16px;
+  margin-bottom:12px;
+}
+
+/* SHORT PLAYER FIELDS */
+input{
+  width:100%;
+  height:28px;
+  padding:0 10px;
+  line-height:28px;
   border-radius:12px;
   border:none;
-  margin-bottom:10px;
-  font-size:13px;
+  margin-bottom:6px;
+  font-size:12px;
   font-family:'Poppins',sans-serif;
   font-weight:600;
   color:white;
 }
-  
-input::placeholder{
-  color:rgba(255,255,255,0.8);
-}
 
+#name1{ background:#ff6b6b; }
+#name2{ background:#4ecdc4; }
+#name3{ background:#ffe66d; color:#333; }
+#name4{ background:#c77dff; }
+
+input::placeholder{
+  color:rgba(255,255,255,0.85);
+}
 #name3::placeholder{
   color:#333;
 }
+
 button{
   width:100%;
-  padding:13px;
+  padding:10px;
   border-radius:16px;
   border:none;
   font-weight:600;
@@ -126,6 +150,7 @@ button:hover{
   font-weight:600;
 }
 
+/* 3D DICE */
 .dice-container{
   width:80px;
   height:80px;
@@ -145,16 +170,29 @@ button:hover{
   position:absolute;
   width:80px;
   height:80px;
-  background:white;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-  font-weight:700;
-  color:#333;
-  border:2px solid #ddd;
+  border-radius:18px;
+  background:linear-gradient(145deg,#ffffff,#e6e6e6);
+  box-shadow:
+    inset -4px -4px 10px rgba(0,0,0,0.1),
+    inset 4px 4px 10px rgba(255,255,255,0.8),
+    0 8px 20px rgba(0,0,0,0.25);
 }
+
+.dot{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:#222;
+  border-radius:50%;
+}
+
+.tl{ top:12px; left:12px; }
+.tr{ top:12px; right:12px; }
+.ml{ top:50%; left:12px; transform:translateY(-50%); }
+.mr{ top:50%; right:12px; transform:translateY(-50%); }
+.bl{ bottom:12px; left:12px; }
+.br{ bottom:12px; right:12px; }
+.center{ top:50%; left:50%; transform:translate(-50%,-50%); }
 
 .front  { transform:rotateY(0deg) translateZ(40px); }
 .back   { transform:rotateY(180deg) translateZ(40px); }
@@ -231,12 +269,46 @@ button:hover{
 
 <div class="dice-container">
 <div id="dice" class="dice">
-<div class="face front">1</div>
-<div class="face back">6</div>
-<div class="face right">3</div>
-<div class="face left">4</div>
-<div class="face top">2</div>
-<div class="face bottom">5</div>
+
+<div class="face front">
+  <span class="dot center"></span>
+</div>
+
+<div class="face back">
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot ml"></span>
+  <span class="dot mr"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
+</div>
+
+<div class="face right">
+  <span class="dot tl"></span>
+  <span class="dot center"></span>
+  <span class="dot br"></span>
+</div>
+
+<div class="face left">
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
+</div>
+
+<div class="face top">
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+</div>
+
+<div class="face bottom">
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot center"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
+</div>
+
 </div>
 </div>
 
@@ -294,9 +366,8 @@ let dice=Math.floor(Math.random()*6)+1;
 document.getElementById("diceSound").play();
 
 let diceEl=document.getElementById("dice");
-
-let randomX = Math.floor(Math.random()*4)*90 + 720;
-let randomY = Math.floor(Math.random()*4)*90 + 720;
+let randomX=Math.floor(Math.random()*4)*90+720;
+let randomY=Math.floor(Math.random()*4)*90+720;
 
 diceEl.style.transform=`rotateX(${randomX}deg) rotateY(${randomY}deg)`;
 
@@ -307,19 +378,14 @@ function getCoords(pos){
 const board=document.getElementById("board");
 const boardWidth=board.offsetWidth;
 const boardHeight=board.offsetHeight;
-
 const gridTopOffset=85;
 const gridBottomOffset=30;
-
 const gridHeight=boardHeight-gridTopOffset-gridBottomOffset;
 const cellWidth=boardWidth/10;
 const cellHeight=gridHeight/10;
-
 let row=Math.floor((pos-1)/10);
 let col=(pos-1)%10;
-
 if(row%2===1) col=9-col;
-
 return{
 left:col*cellWidth+(cellWidth/2)-10,
 top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-10
@@ -417,4 +483,3 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
-
