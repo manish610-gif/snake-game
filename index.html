@@ -104,16 +104,16 @@ select{
 /* SHORT PLAYER FIELDS */
 input{
   width:100%;
-  height:28px;
-  padding:0 10px;
-  line-height:28px;
-  border-radius:12px;
+  height:24px;              /* truly small */
+  padding:0 8px;            /* no vertical padding */
+  border-radius:10px;
   border:none;
-  margin-bottom:6px;
+  margin-bottom:5px;
   font-size:12px;
   font-family:'Poppins',sans-serif;
   font-weight:600;
   color:white;
+  box-sizing:border-box;    /* important */
 }
 
 #name1{ background:#ff6b6b; }
@@ -327,9 +327,28 @@ button:hover{
 
 <script>
 
-const snakesAndLadders={
-4:34,10:47,16:35,22:41,39:58,44:54,48:60,67:86,76:92,79:81,
-33:9,21:3,42:14,27:5,61:45,78:53,70:57,97:74,93:73
+const snakesAndLadders = {
+
+  // 🪜 Ladders
+  5:25,
+  18:38,
+  42:59,
+  45:55,
+  52:62,
+  68:88,
+  77:94,
+  81:92,
+
+  // 🐍 Snakes
+  98:87,
+  75:65,
+  79:62,
+  70:58,
+  56:46,
+  43:24,
+  34:12,
+  22:17
+
 };
 
 let players=[];
@@ -359,17 +378,32 @@ updateTurn();
 }
 
 function rollDice(){
-if(moving||players.length===0) return;
+if(moving || players.length===0) return;
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
+
 document.getElementById("diceSound").play();
 
 let diceEl=document.getElementById("dice");
-let randomX=Math.floor(Math.random()*4)*90+720;
-let randomY=Math.floor(Math.random()*4)*90+720;
 
-diceEl.style.transform=`rotateX(${randomX}deg) rotateY(${randomY}deg)`;
+/* base rotations for correct face */
+const baseRotation = {
+1: "rotateX(0deg) rotateY(0deg)",
+2: "rotateX(-90deg) rotateY(0deg)",
+3: "rotateX(0deg) rotateY(-90deg)",
+4: "rotateX(0deg) rotateY(90deg)",
+5: "rotateX(90deg) rotateY(0deg)",
+6: "rotateX(0deg) rotateY(180deg)"
+};
+
+/* add extra spins but keep final face correct */
+let spinX = 720;
+let spinY = 720;
+
+diceEl.style.transform =
+  baseRotation[dice] +
+  ` rotateX(${spinX}deg) rotateY(${spinY}deg)`;
 
 setTimeout(()=>moveStep(dice),1000);
 }
@@ -483,3 +517,4 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
