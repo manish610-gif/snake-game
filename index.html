@@ -64,7 +64,11 @@ body::before{
 #p2{background:#4ecdc4;}
 #p3{background:#ffe66d;}
 #p4{background:#c77dff;}
-
+#name1{ background:#ff6b6b; }
+#name2{ background:#4ecdc4; }
+#name3{ background:#ffe66d; color:#333; }
+#name4{ background:#c77dff; }
+  
 .panel{
   width:350px;
   padding:30px;
@@ -82,13 +86,24 @@ body::before{
 
 select,input{
   width:100%;
-  padding:8px;
-  border-radius:10px;
+  padding:6px 10px;      /* shorter height */
+  height:34px;           /* compact */
+  border-radius:12px;
   border:none;
   margin-bottom:10px;
+  font-size:13px;
   font-family:'Poppins',sans-serif;
+  font-weight:600;
+  color:white;
+}
+  
+input::placeholder{
+  color:rgba(255,255,255,0.8);
 }
 
+#name3::placeholder{
+  color:#333;
+}
 button{
   width:100%;
   padding:13px;
@@ -402,3 +417,4 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
