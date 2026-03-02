@@ -80,6 +80,7 @@ body::before{
   margin-bottom:20px;
 }
 
+/* Professional dropdown */
 select{
   width:100%;
   height:34px;
@@ -93,13 +94,18 @@ select{
   color:#333;
   cursor:pointer;
   appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg fill='%23333' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 12px center;
+  background-size:16px;
   margin-bottom:12px;
 }
 
+/* SHORT PLAYER FIELDS */
 input{
   width:100%;
-  height:24px;
-  padding:0 8px;
+  height:24px;              /* truly small */
+  padding:0 8px;            /* no vertical padding */
   border-radius:10px;
   border:none;
   margin-bottom:5px;
@@ -107,13 +113,20 @@ input{
   font-family:'Poppins',sans-serif;
   font-weight:600;
   color:white;
-  box-sizing:border-box;
+  box-sizing:border-box;    /* important */
 }
 
 #name1{ background:#ff6b6b; }
 #name2{ background:#4ecdc4; }
 #name3{ background:#ffe66d; color:#333; }
 #name4{ background:#c77dff; }
+
+input::placeholder{
+  color:rgba(255,255,255,0.85);
+}
+#name3::placeholder{
+  color:#333;
+}
 
 button{
   width:100%;
@@ -124,6 +137,11 @@ button{
   cursor:pointer;
   margin-top:10px;
   background:#00f5d4;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#00e6c7;
 }
 
 #turn{
@@ -132,8 +150,7 @@ button{
   font-weight:600;
 }
 
-/* 3D Dice */
-
+/* 3D DICE */
 .dice-container{
   width:80px;
   height:80px;
@@ -184,6 +201,34 @@ button{
 .top    { transform:rotateX(90deg) translateZ(40px); }
 .bottom { transform:rotateX(-90deg) translateZ(40px); }
 
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  visibility:hidden;
+  opacity:0;
+  transition:0.3s;
+  z-index:9999;
+}
+
+.popup.show{
+  visibility:visible;
+  opacity:1;
+}
+
+.popup-content{
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  text-align:center;
+}
+
 </style>
 </head>
 
@@ -203,6 +248,7 @@ button{
 </div>
 
 <div class="panel">
+
 <h2>Snake & Ladder</h2>
 
 <select id="playerCount" onchange="toggleInputs()">
@@ -224,26 +270,43 @@ button{
 <div class="dice-container">
 <div id="dice" class="dice">
 
-<div class="face front"><span class="dot center"></span></div>
+<div class="face front">
+  <span class="dot center"></span>
+</div>
+
 <div class="face back">
-<span class="dot tl"></span><span class="dot tr"></span>
-<span class="dot ml"></span><span class="dot mr"></span>
-<span class="dot bl"></span><span class="dot br"></span>
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot ml"></span>
+  <span class="dot mr"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
 </div>
+
 <div class="face right">
-<span class="dot tl"></span><span class="dot center"></span><span class="dot br"></span>
+  <span class="dot tl"></span>
+  <span class="dot center"></span>
+  <span class="dot br"></span>
 </div>
+
 <div class="face left">
-<span class="dot tl"></span><span class="dot tr"></span>
-<span class="dot bl"></span><span class="dot br"></span>
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
 </div>
+
 <div class="face top">
-<span class="dot tl"></span><span class="dot tr"></span>
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
 </div>
+
 <div class="face bottom">
-<span class="dot tl"></span><span class="dot tr"></span>
-<span class="dot center"></span>
-<span class="dot bl"></span><span class="dot br"></span>
+  <span class="dot tl"></span>
+  <span class="dot tr"></span>
+  <span class="dot center"></span>
+  <span class="dot bl"></span>
+  <span class="dot br"></span>
 </div>
 
 </div>
@@ -255,11 +318,41 @@ button{
 </div>
 </div>
 
+<div class="popup" id="winnerPopup">
+<div class="popup-content">
+<h2 id="winnerText"></h2>
+<button onclick="closePopup()">Close</button>
+</div>
+</div>
+
 <script>
 
 const snakesAndLadders = {
-5:35,11:48,17:36,23:42,40:59,45:55,49:70,63:84,71:89,74:93,
-98:76,94:77,72:54,80:58,66:57,69:46,43:15,34:10,28:6,22:4
+
+  // 🪜 Ladders
+  5:35,
+  11:48,
+  17:36,
+  23:42,
+  40:59,
+  45:55,
+  49:70,
+  63:84,
+  71:89,
+  74:93,
+
+  // 🐍 Snakes
+  98:76,
+  94:77,
+  72:54,
+  80:58,
+  66:57,
+  69:46,
+  43:15,
+  34:10,
+  28:06,
+  22:04,
+
 };
 
 let players=[];
@@ -289,24 +382,32 @@ updateTurn();
 }
 
 function rollDice(){
-if(moving||players.length===0) return;
+if(moving || players.length===0) return;
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
 
-document.getElementById("diceSound").play().catch(()=>{});
+document.getElementById("diceSound").play();
 
-const baseRotation={
-1:"rotateX(0deg) rotateY(0deg)",
-2:"rotateX(-90deg)",
-3:"rotateY(-90deg)",
-4:"rotateY(90deg)",
-5:"rotateX(90deg)",
-6:"rotateY(180deg)"
+let diceEl=document.getElementById("dice");
+
+/* base rotations for correct face */
+const baseRotation = {
+1: "rotateX(0deg) rotateY(0deg)",
+2: "rotateX(-90deg) rotateY(0deg)",
+3: "rotateX(0deg) rotateY(-90deg)",
+4: "rotateX(0deg) rotateY(90deg)",
+5: "rotateX(90deg) rotateY(0deg)",
+6: "rotateX(0deg) rotateY(180deg)"
 };
 
-document.getElementById("dice").style.transform=
-baseRotation[dice]+" rotateX(720deg) rotateY(720deg)";
+/* add extra spins but keep final face correct */
+let spinX = 720;
+let spinY = 720;
+
+diceEl.style.transform =
+  baseRotation[dice] +
+  ` rotateX(${spinX}deg) rotateY(${spinY}deg)`;
 
 setTimeout(()=>moveStep(dice),1000);
 }
@@ -315,22 +416,17 @@ function getCoords(pos){
 const board=document.getElementById("board");
 const boardWidth=board.offsetWidth;
 const boardHeight=board.offsetHeight;
-
 const gridTopOffset=85;
 const gridBottomOffset=30;
-
 const gridHeight=boardHeight-gridTopOffset-gridBottomOffset;
 const cellWidth=boardWidth/10;
 const cellHeight=gridHeight/10;
-
 let row=Math.floor((pos-1)/10);
 let col=(pos-1)%10;
-
 if(row%2===1) col=9-col;
-
 return{
-left:col*cellWidth+(cellWidth/2)-(20/2),
-top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-(20/2)
+left:col*cellWidth+(cellWidth/2)-10,
+top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-13
 };
 }
 
@@ -361,16 +457,19 @@ function afterMove(){
 let pos=positions[currentPlayer];
 
 if(snakesAndLadders[pos]){
-if(snakesAndLadders[pos]>pos)
-document.getElementById("ladderSound").play().catch(()=>{});
-else
-document.getElementById("snakeSound").play().catch(()=>{});
+if(snakesAndLadders[pos]>pos){
+document.getElementById("ladderSound").play();
+}else{
+document.getElementById("snakeSound").play();
+}
 positions[currentPlayer]=snakesAndLadders[pos];
 updateToken(currentPlayer);
 }
 
+cutLogic();
+
 if(positions[currentPlayer]===100){
-alert(players[currentPlayer]+" Wins 🎉");
+showWinner(players[currentPlayer]);
 moving=false;
 return;
 }
@@ -378,6 +477,15 @@ return;
 currentPlayer=(currentPlayer+1)%totalPlayers;
 updateTurn();
 moving=false;
+}
+
+function cutLogic(){
+for(let i=0;i<totalPlayers;i++){
+if(i!==currentPlayer && positions[i]===positions[currentPlayer]){
+positions[i]=1;
+updateToken(i);
+}
+}
 }
 
 function updateTurn(){
@@ -394,6 +502,16 @@ for(let i=0;i<4;i++) updateToken(i);
 updateTurn();
 }
 
+function showWinner(name){
+winnerText.innerText=name+" Wins 🎉";
+winnerPopup.classList.add("show");
+}
+
+function closePopup(){
+winnerPopup.classList.remove("show");
+restart();
+}
+
 window.onload=()=>{
 toggleInputs();
 for(let i=0;i<4;i++) updateToken(i);
@@ -403,3 +521,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
+
+
+
