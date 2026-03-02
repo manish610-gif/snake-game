@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
@@ -92,10 +93,6 @@ select{
   color:#333;
   cursor:pointer;
   appearance:none;
-  background-image:url("data:image/svg+xml;utf8,<svg fill='%23333' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat:no-repeat;
-  background-position:right 12px center;
-  background-size:16px;
   margin-bottom:12px;
 }
 
@@ -134,10 +131,67 @@ button{
   margin:15px 0;
   font-weight:600;
 }
+
+/* 3D Dice */
+
+.dice-container{
+  width:80px;
+  height:80px;
+  margin:25px auto;
+  perspective:800px;
+}
+
+.dice{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 1s ease;
+}
+
+.face{
+  position:absolute;
+  width:80px;
+  height:80px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#ffffff,#e6e6e6);
+  box-shadow:
+    inset -4px -4px 10px rgba(0,0,0,0.1),
+    inset 4px 4px 10px rgba(255,255,255,0.8),
+    0 8px 20px rgba(0,0,0,0.25);
+}
+
+.dot{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:#222;
+  border-radius:50%;
+}
+
+.tl{ top:12px; left:12px; }
+.tr{ top:12px; right:12px; }
+.ml{ top:50%; left:12px; transform:translateY(-50%); }
+.mr{ top:50%; right:12px; transform:translateY(-50%); }
+.bl{ bottom:12px; left:12px; }
+.br{ bottom:12px; right:12px; }
+.center{ top:50%; left:50%; transform:translate(-50%,-50%); }
+
+.front  { transform:rotateY(0deg) translateZ(40px); }
+.back   { transform:rotateY(180deg) translateZ(40px); }
+.right  { transform:rotateY(90deg) translateZ(40px); }
+.left   { transform:rotateY(-90deg) translateZ(40px); }
+.top    { transform:rotateX(90deg) translateZ(40px); }
+.bottom { transform:rotateX(-90deg) translateZ(40px); }
+
 </style>
 </head>
 
 <body>
+
+<audio id="diceSound" src="dice.mp3"></audio>
+<audio id="snakeSound" src="snake.mp3"></audio>
+<audio id="ladderSound" src="ladder.mp3"></audio>
 
 <div class="wrapper">
 
@@ -167,36 +221,45 @@ button{
 
 <div id="turn">Turn: -</div>
 
+<div class="dice-container">
+<div id="dice" class="dice">
+
+<div class="face front"><span class="dot center"></span></div>
+<div class="face back">
+<span class="dot tl"></span><span class="dot tr"></span>
+<span class="dot ml"></span><span class="dot mr"></span>
+<span class="dot bl"></span><span class="dot br"></span>
+</div>
+<div class="face right">
+<span class="dot tl"></span><span class="dot center"></span><span class="dot br"></span>
+</div>
+<div class="face left">
+<span class="dot tl"></span><span class="dot tr"></span>
+<span class="dot bl"></span><span class="dot br"></span>
+</div>
+<div class="face top">
+<span class="dot tl"></span><span class="dot tr"></span>
+</div>
+<div class="face bottom">
+<span class="dot tl"></span><span class="dot tr"></span>
+<span class="dot center"></span>
+<span class="dot bl"></span><span class="dot br"></span>
+</div>
+
+</div>
+</div>
+
 <button onclick="rollDice()">Roll Dice</button>
 <button onclick="restart()">Restart</button>
+
 </div>
 </div>
 
 <script>
 
 const snakesAndLadders = {
-
-  5:35,
-  11:48,
-  17:36,
-  23:42,
-  40:59,
-  45:55,
-  49:70,
-  63:84,
-  71:89,
-  74:93,
-
-  98:76,
-  94:77,
-  72:54,
-  80:58,
-  66:57,
-  69:46,
-  43:15,
-  34:10,
-  28:6,
-  22:4
+5:35,11:48,17:36,23:42,40:59,45:55,49:70,63:84,71:89,74:93,
+98:76,94:77,72:54,80:58,66:57,69:46,43:15,34:10,28:6,22:4
 };
 
 let players=[];
@@ -226,11 +289,26 @@ updateTurn();
 }
 
 function rollDice(){
-if(moving || players.length===0) return;
+if(moving||players.length===0) return;
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
-setTimeout(()=>moveStep(dice),500);
+
+document.getElementById("diceSound").play().catch(()=>{});
+
+const baseRotation={
+1:"rotateX(0deg) rotateY(0deg)",
+2:"rotateX(-90deg)",
+3:"rotateY(-90deg)",
+4:"rotateY(90deg)",
+5:"rotateX(90deg)",
+6:"rotateY(180deg)"
+};
+
+document.getElementById("dice").style.transform=
+baseRotation[dice]+" rotateX(720deg) rotateY(720deg)";
+
+setTimeout(()=>moveStep(dice),1000);
 }
 
 function getCoords(pos){
@@ -283,11 +361,13 @@ function afterMove(){
 let pos=positions[currentPlayer];
 
 if(snakesAndLadders[pos]){
+if(snakesAndLadders[pos]>pos)
+document.getElementById("ladderSound").play().catch(()=>{});
+else
+document.getElementById("snakeSound").play().catch(()=>{});
 positions[currentPlayer]=snakesAndLadders[pos];
 updateToken(currentPlayer);
 }
-
-cutLogic();
 
 if(positions[currentPlayer]===100){
 alert(players[currentPlayer]+" Wins 🎉");
@@ -298,15 +378,6 @@ return;
 currentPlayer=(currentPlayer+1)%totalPlayers;
 updateTurn();
 moving=false;
-}
-
-function cutLogic(){
-for(let i=0;i<totalPlayers;i++){
-if(i!==currentPlayer && positions[i]===positions[currentPlayer]){
-positions[i]=1;
-updateToken(i);
-}
-}
 }
 
 function updateTurn(){
