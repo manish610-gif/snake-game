@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
@@ -80,7 +79,6 @@ body::before{
   margin-bottom:20px;
 }
 
-/* Professional dropdown */
 select{
   width:100%;
   height:34px;
@@ -101,11 +99,10 @@ select{
   margin-bottom:12px;
 }
 
-/* SHORT PLAYER FIELDS */
 input{
   width:100%;
-  height:24px;              /* truly small */
-  padding:0 8px;            /* no vertical padding */
+  height:24px;
+  padding:0 8px;
   border-radius:10px;
   border:none;
   margin-bottom:5px;
@@ -113,20 +110,13 @@ input{
   font-family:'Poppins',sans-serif;
   font-weight:600;
   color:white;
-  box-sizing:border-box;    /* important */
+  box-sizing:border-box;
 }
 
 #name1{ background:#ff6b6b; }
 #name2{ background:#4ecdc4; }
 #name3{ background:#ffe66d; color:#333; }
 #name4{ background:#c77dff; }
-
-input::placeholder{
-  color:rgba(255,255,255,0.85);
-}
-#name3::placeholder{
-  color:#333;
-}
 
 button{
   width:100%;
@@ -137,11 +127,6 @@ button{
   cursor:pointer;
   margin-top:10px;
   background:#00f5d4;
-  transition:0.2s;
-}
-
-button:hover{
-  background:#00e6c7;
 }
 
 #turn{
@@ -149,94 +134,10 @@ button:hover{
   margin:15px 0;
   font-weight:600;
 }
-
-/* 3D DICE */
-.dice-container{
-  width:80px;
-  height:80px;
-  margin:25px auto;
-  perspective:800px;
-}
-
-.dice{
-  width:100%;
-  height:100%;
-  position:relative;
-  transform-style:preserve-3d;
-  transition:transform 1s ease;
-}
-
-.face{
-  position:absolute;
-  width:80px;
-  height:80px;
-  border-radius:18px;
-  background:linear-gradient(145deg,#ffffff,#e6e6e6);
-  box-shadow:
-    inset -4px -4px 10px rgba(0,0,0,0.1),
-    inset 4px 4px 10px rgba(255,255,255,0.8),
-    0 8px 20px rgba(0,0,0,0.25);
-}
-
-.dot{
-  position:absolute;
-  width:12px;
-  height:12px;
-  background:#222;
-  border-radius:50%;
-}
-
-.tl{ top:12px; left:12px; }
-.tr{ top:12px; right:12px; }
-.ml{ top:50%; left:12px; transform:translateY(-50%); }
-.mr{ top:50%; right:12px; transform:translateY(-50%); }
-.bl{ bottom:12px; left:12px; }
-.br{ bottom:12px; right:12px; }
-.center{ top:50%; left:50%; transform:translate(-50%,-50%); }
-
-.front  { transform:rotateY(0deg) translateZ(40px); }
-.back   { transform:rotateY(180deg) translateZ(40px); }
-.right  { transform:rotateY(90deg) translateZ(40px); }
-.left   { transform:rotateY(-90deg) translateZ(40px); }
-.top    { transform:rotateX(90deg) translateZ(40px); }
-.bottom { transform:rotateX(-90deg) translateZ(40px); }
-
-.popup{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  visibility:hidden;
-  opacity:0;
-  transition:0.3s;
-  z-index:9999;
-}
-
-.popup.show{
-  visibility:visible;
-  opacity:1;
-}
-
-.popup-content{
-  background:white;
-  padding:35px;
-  border-radius:20px;
-  text-align:center;
-}
-
 </style>
 </head>
 
 <body>
-
-<audio id="diceSound" src="dice.mp3"></audio>
-<audio id="snakeSound" src="snake.mp3"></audio>
-<audio id="ladderSound" src="ladder.mp3"></audio>
 
 <div class="wrapper">
 
@@ -248,7 +149,6 @@ button:hover{
 </div>
 
 <div class="panel">
-
 <h2>Snake & Ladder</h2>
 
 <select id="playerCount" onchange="toggleInputs()">
@@ -267,61 +167,8 @@ button:hover{
 
 <div id="turn">Turn: -</div>
 
-<div class="dice-container">
-<div id="dice" class="dice">
-
-<div class="face front">
-  <span class="dot center"></span>
-</div>
-
-<div class="face back">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot ml"></span>
-  <span class="dot mr"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face right">
-  <span class="dot tl"></span>
-  <span class="dot center"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face left">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face top">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-</div>
-
-<div class="face bottom">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot center"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-</div>
-</div>
-
 <button onclick="rollDice()">Roll Dice</button>
 <button onclick="restart()">Restart</button>
-
-</div>
-</div>
-
-<div class="popup" id="winnerPopup">
-<div class="popup-content">
-<h2 id="winnerText"></h2>
-<button onclick="closePopup()">Close</button>
 </div>
 </div>
 
@@ -329,7 +176,6 @@ button:hover{
 
 const snakesAndLadders = {
 
-  // 🪜 Ladders
   5:35,
   11:48,
   17:36,
@@ -341,7 +187,6 @@ const snakesAndLadders = {
   71:89,
   74:93,
 
-  // 🐍 Snakes
   98:76,
   94:77,
   72:54,
@@ -350,9 +195,8 @@ const snakesAndLadders = {
   69:46,
   43:15,
   34:10,
-  28:06,
-  22:04,
-
+  28:6,
+  22:4
 };
 
 let players=[];
@@ -386,48 +230,31 @@ if(moving || players.length===0) return;
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
-
-document.getElementById("diceSound").play();
-
-let diceEl=document.getElementById("dice");
-
-/* base rotations for correct face */
-const baseRotation = {
-1: "rotateX(0deg) rotateY(0deg)",
-2: "rotateX(-90deg) rotateY(0deg)",
-3: "rotateX(0deg) rotateY(-90deg)",
-4: "rotateX(0deg) rotateY(90deg)",
-5: "rotateX(90deg) rotateY(0deg)",
-6: "rotateX(0deg) rotateY(180deg)"
-};
-
-/* add extra spins but keep final face correct */
-let spinX = 720;
-let spinY = 720;
-
-diceEl.style.transform =
-  baseRotation[dice] +
-  ` rotateX(${spinX}deg) rotateY(${spinY}deg)`;
-
-setTimeout(()=>moveStep(dice),1000);
+setTimeout(()=>moveStep(dice),500);
 }
 
 function getCoords(pos){
 const board=document.getElementById("board");
 const boardWidth=board.offsetWidth;
 const boardHeight=board.offsetHeight;
+
 const gridTopOffset=85;
 const gridBottomOffset=30;
+
 const gridHeight=boardHeight-gridTopOffset-gridBottomOffset;
 const cellWidth=boardWidth/10;
 const cellHeight=gridHeight/10;
+
 let row=Math.floor((pos-1)/10);
 let col=(pos-1)%10;
+
 if(row%2===1) col=9-col;
+
 return{
-left:col*cellWidth+(cellWidth/2)-10,
-top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-10
+left:col*cellWidth+(cellWidth/2)-(20/2),
+top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-(20/2)
 };
+}
 
 function updateToken(i){
 const t=document.getElementById("p"+(i+1));
@@ -456,11 +283,6 @@ function afterMove(){
 let pos=positions[currentPlayer];
 
 if(snakesAndLadders[pos]){
-if(snakesAndLadders[pos]>pos){
-document.getElementById("ladderSound").play();
-}else{
-document.getElementById("snakeSound").play();
-}
 positions[currentPlayer]=snakesAndLadders[pos];
 updateToken(currentPlayer);
 }
@@ -468,7 +290,7 @@ updateToken(currentPlayer);
 cutLogic();
 
 if(positions[currentPlayer]===100){
-showWinner(players[currentPlayer]);
+alert(players[currentPlayer]+" Wins 🎉");
 moving=false;
 return;
 }
@@ -501,16 +323,6 @@ for(let i=0;i<4;i++) updateToken(i);
 updateTurn();
 }
 
-function showWinner(name){
-winnerText.innerText=name+" Wins 🎉";
-winnerPopup.classList.add("show");
-}
-
-function closePopup(){
-winnerPopup.classList.remove("show");
-restart();
-}
-
 window.onload=()=>{
 toggleInputs();
 for(let i=0;i<4;i++) updateToken(i);
@@ -520,10 +332,3 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
-
-
-
-
-
-
-
