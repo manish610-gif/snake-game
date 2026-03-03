@@ -433,8 +433,8 @@ let row=Math.floor((pos-1)/10);
 let col=(pos-1)%10;
 if(row%2===1) col=9-col;
 return{
-left:col*cellWidth+(cellWidth/2)-10,
-top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-5
+  left:col*cellWidth+(cellWidth/2)-10,
+  top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-13 + 10
 };
 }
 
@@ -540,6 +540,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
