@@ -221,14 +221,22 @@ button:hover{
   visibility:visible;
   opacity:1;
 }
-
 .popup-content{
   background:white;
   padding:35px;
   border-radius:20px;
   text-align:center;
 }
+@keyframes blinkField {
+  0% { box-shadow: 0 0 0px rgba(255,255,255,0); }
+  50% { box-shadow: 0 0 15px rgba(255,255,255,0.9); }
+  100% { box-shadow: 0 0 0px rgba(255,255,255,0); }
+}
 
+.active-turn {
+  animation: blinkField 1s infinite;
+  transform: scale(1.05);
+}
 </style>
 </head>
 
@@ -489,10 +497,21 @@ updateToken(i);
 }
 
 function updateTurn(){
-const turnEl=document.getElementById("turn");
-turnEl.innerText="Turn: "+players[currentPlayer];
-const colors=["#ff6b6b","#4ecdc4","#ffe66d","#c77dff"];
-turnEl.style.color=colors[currentPlayer];
+
+  const turnEl=document.getElementById("turn");
+  turnEl.innerText="Turn: "+players[currentPlayer];
+
+  const colors=["#ff6b6b","#4ecdc4","#ffe66d","#c77dff"];
+  turnEl.style.color=colors[currentPlayer];
+
+  // 🔥 Remove blinking from all fields
+  for(let i=1;i<=4;i++){
+    document.getElementById("name"+i).classList.remove("active-turn");
+  }
+
+  // 🔥 Add blinking to current player field
+  document.getElementById("name"+(currentPlayer+1))
+    .classList.add("active-turn");
 }
 
 function restart(){
@@ -521,6 +540,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
