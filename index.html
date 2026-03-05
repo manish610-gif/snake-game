@@ -32,7 +32,13 @@ background:rgba(0,0,0,0.45);
 backdrop-filter:blur(4px);
 z-index:0;
 }
-
+.front  { transform:rotateY(0deg) translateZ(40px); }
+.back   { transform:rotateY(180deg) translateZ(40px); }
+.right  { transform:rotateY(90deg) translateZ(40px); }
+.left   { transform:rotateY(-90deg) translateZ(40px); }
+.top    { transform:rotateX(90deg) translateZ(40px); }
+.bottom { transform:rotateX(-90deg) translateZ(40px); }
+  
 .wrapper{
 width:1200px;
 display:flex;
@@ -309,13 +315,35 @@ updateTurn();
 }
 
 function rollDice(){
-if(moving||players.length===0) return;
+
+if(moving || players.length===0) return;
+
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
-diceSound.play();
 
-setTimeout(()=>moveStep(dice),800);
+document.getElementById("diceSound").play();
+
+let diceEl=document.getElementById("dice");
+
+const baseRotation = {
+1:"rotateX(0deg) rotateY(0deg)",
+2:"rotateX(-90deg) rotateY(0deg)",
+3:"rotateX(0deg) rotateY(-90deg)",
+4:"rotateX(0deg) rotateY(90deg)",
+5:"rotateX(90deg) rotateY(0deg)",
+6:"rotateX(0deg) rotateY(180deg)"
+};
+
+let spinX=720;
+let spinY=720;
+
+diceEl.style.transform =
+baseRotation[dice] +
+` rotateX(${spinX}deg) rotateY(${spinY}deg)`;
+
+setTimeout(()=>moveStep(dice),1000);
+
 }
 
 function moveStep(dice){
@@ -451,4 +479,5 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
