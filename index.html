@@ -502,20 +502,22 @@ updateToken(i);
 
 function updateTurn(){
 
+  if(players.length === 0) return;
+
   const turnEl=document.getElementById("turn");
   turnEl.innerText="Turn: "+players[currentPlayer];
 
   const colors=["#ff6b6b","#4ecdc4","#ffe66d","#c77dff"];
   turnEl.style.color=colors[currentPlayer];
 
-  // 🔥 Remove blinking from all fields
   for(let i=1;i<=4;i++){
-    document.getElementById("name"+i).classList.remove("active-turn");
+    const el=document.getElementById("name"+i);
+    if(el) el.classList.remove("active-turn");
   }
 
-  // 🔥 Add blinking to current player field
-  document.getElementById("name"+(currentPlayer+1))
-    .classList.add("active-turn");
+  const currentField=document.getElementById("name"+(currentPlayer+1));
+  if(currentField) currentField.classList.add("active-turn");
+
 }
 
 function restart(){
@@ -544,6 +546,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
