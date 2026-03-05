@@ -368,6 +368,7 @@ let positions=[1,1,1,1];
 let currentPlayer=0;
 let moving=false;
 let totalPlayers=4;
+let lastDice = 0;
 
 function toggleInputs(){
 totalPlayers=parseInt(playerCount.value);
@@ -394,6 +395,7 @@ if(moving || players.length===0) return;
 moving=true;
 
 let dice=Math.floor(Math.random()*6)+1;
+lastDice = dice;
 
 document.getElementById("diceSound").play();
 
@@ -482,10 +484,11 @@ moving=false;
 return;
 }
 
-currentPlayer=(currentPlayer+1)%totalPlayers;
+if(lastDice !== 6){
+  currentPlayer=(currentPlayer+1)%totalPlayers;
+}
 updateTurn();
 moving=false;
-}
 
 function cutLogic(){
 for(let i=0;i<totalPlayers;i++){
@@ -540,6 +543,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
