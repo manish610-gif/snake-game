@@ -484,8 +484,10 @@ moving=false;
 return;
 }
 
-if(lastDice !== 6){
-currentPlayer=(currentPlayer+1)%totalPlayers;
+if(lastDice === 6){
+  // same player continues
+}else{
+  currentPlayer=(currentPlayer+1)%totalPlayers;
 }
 
 updateTurn();
@@ -546,6 +548,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
