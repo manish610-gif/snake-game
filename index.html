@@ -221,7 +221,48 @@ animation:blinkField 1s infinite;
 <div id="turn">Turn: -</div>
 
 <div class="dice-container">
-<div id="dice" class="dice"></div>
+<div id="dice" class="dice">
+
+<div class="face front">
+<span class="dot center"></span>
+</div>
+
+<div class="face back">
+<span class="dot tl"></span>
+<span class="dot tr"></span>
+<span class="dot ml"></span>
+<span class="dot mr"></span>
+<span class="dot bl"></span>
+<span class="dot br"></span>
+</div>
+
+<div class="face right">
+<span class="dot tl"></span>
+<span class="dot center"></span>
+<span class="dot br"></span>
+</div>
+
+<div class="face left">
+<span class="dot tl"></span>
+<span class="dot tr"></span>
+<span class="dot bl"></span>
+<span class="dot br"></span>
+</div>
+
+<div class="face top">
+<span class="dot tl"></span>
+<span class="dot tr"></span>
+</div>
+
+<div class="face bottom">
+<span class="dot tl"></span>
+<span class="dot tr"></span>
+<span class="dot center"></span>
+<span class="dot bl"></span>
+<span class="dot br"></span>
+</div>
+
+</div>
 </div>
 
 <button onclick="rollDice()">Roll Dice</button> <button onclick="restart()">Restart</button>
@@ -410,3 +451,4 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
