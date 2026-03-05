@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
@@ -19,7 +18,6 @@ body{
   background-size:cover;
   position:relative;
 }
-
 body::before{
   content:"";
   position:absolute;
@@ -31,7 +29,6 @@ body::before{
   backdrop-filter:blur(4px);
   z-index:0;
 }
-
 .wrapper{
   width:1200px;
   display:flex;
@@ -40,7 +37,6 @@ body::before{
   position:relative;
   z-index:1;
 }
-
 #board{
   position:relative;
   width:700px;
@@ -50,7 +46,6 @@ body::before{
   border-radius:25px;
   box-shadow:0 20px 50px rgba(0,0,0,0.35);
 }
-
 .player{
   width:20px;
   height:20px;
@@ -59,7 +54,6 @@ body::before{
   transition:0.25s linear;
   border:3px solid white;
 }
-
 #p1{background:#ff6b6b;}
 #p2{background:#4ecdc4;}
 #p3{background:#ffe66d;}
@@ -74,59 +68,32 @@ body::before{
   box-shadow:0 15px 35px rgba(0,0,0,0.25);
   color:white;
 }
-
-.panel h2{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-/* Professional dropdown */
+.panel h2{text-align:center;margin-bottom:20px;}
 select{
   width:100%;
   height:34px;
   padding:0 12px;
   border-radius:14px;
   border:none;
-  font-family:'Poppins',sans-serif;
   font-weight:600;
-  font-size:13px;
   background:rgba(255,255,255,0.9);
-  color:#333;
-  cursor:pointer;
-  appearance:none;
-  background-image:url("data:image/svg+xml;utf8,<svg fill='%23333' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat:no-repeat;
-  background-position:right 12px center;
-  background-size:16px;
   margin-bottom:12px;
 }
-
-/* SHORT PLAYER FIELDS */
 input{
   width:100%;
-  height:24px;              /* truly small */
-  padding:0 8px;            /* no vertical padding */
+  height:24px;
+  padding:0 8px;
   border-radius:10px;
   border:none;
   margin-bottom:5px;
   font-size:12px;
-  font-family:'Poppins',sans-serif;
   font-weight:600;
   color:white;
-  box-sizing:border-box;    /* important */
 }
-
-#name1{ background:#ff6b6b; }
-#name2{ background:#4ecdc4; }
-#name3{ background:#ffe66d; color:#333; }
-#name4{ background:#c77dff; }
-
-input::placeholder{
-  color:rgba(255,255,255,0.85);
-}
-#name3::placeholder{
-  color:#333;
-}
+#name1{background:#ff6b6b;}
+#name2{background:#4ecdc4;}
+#name3{background:#ffe66d;color:#333;}
+#name4{background:#c77dff;}
 
 button{
   width:100%;
@@ -137,27 +104,15 @@ button{
   cursor:pointer;
   margin-top:10px;
   background:#00f5d4;
-  transition:0.2s;
 }
+#turn{text-align:center;margin:15px 0;font-weight:600;}
 
-button:hover{
-  background:#00e6c7;
-}
-
-#turn{
-  text-align:center;
-  margin:15px 0;
-  font-weight:600;
-}
-
-/* 3D DICE */
 .dice-container{
   width:80px;
   height:80px;
   margin:25px auto;
   perspective:800px;
 }
-
 .dice{
   width:100%;
   height:100%;
@@ -165,19 +120,13 @@ button:hover{
   transform-style:preserve-3d;
   transition:transform 1s ease;
 }
-
 .face{
   position:absolute;
   width:80px;
   height:80px;
   border-radius:18px;
-  background:linear-gradient(145deg,#ffffff,#e6e6e6);
-  box-shadow:
-    inset -4px -4px 10px rgba(0,0,0,0.1),
-    inset 4px 4px 10px rgba(255,255,255,0.8),
-    0 8px 20px rgba(0,0,0,0.25);
+  background:#fff;
 }
-
 .dot{
   position:absolute;
   width:12px;
@@ -185,57 +134,32 @@ button:hover{
   background:#222;
   border-radius:50%;
 }
-
-.tl{ top:12px; left:12px; }
-.tr{ top:12px; right:12px; }
-.ml{ top:50%; left:12px; transform:translateY(-50%); }
-.mr{ top:50%; right:12px; transform:translateY(-50%); }
-.bl{ bottom:12px; left:12px; }
-.br{ bottom:12px; right:12px; }
-.center{ top:50%; left:50%; transform:translate(-50%,-50%); }
-
-.front  { transform:rotateY(0deg) translateZ(40px); }
-.back   { transform:rotateY(180deg) translateZ(40px); }
-.right  { transform:rotateY(90deg) translateZ(40px); }
-.left   { transform:rotateY(-90deg) translateZ(40px); }
-.top    { transform:rotateX(90deg) translateZ(40px); }
-.bottom { transform:rotateX(-90deg) translateZ(40px); }
+.center{top:50%;left:50%;transform:translate(-50%,-50%);}
+.tl{top:12px;left:12px;} .tr{top:12px;right:12px;}
+.bl{bottom:12px;left:12px;} .br{bottom:12px;right:12px;}
 
 .popup{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   background:rgba(0,0,0,0.6);
   display:flex;
   justify-content:center;
   align-items:center;
   visibility:hidden;
-  opacity:0;
-  transition:0.3s;
-  z-index:9999;
 }
-
-.popup.show{
-  visibility:visible;
-  opacity:1;
-}
+.popup.show{visibility:visible;}
 .popup-content{
   background:white;
   padding:35px;
   border-radius:20px;
   text-align:center;
 }
-@keyframes blinkField {
-  0% { box-shadow: 0 0 0px rgba(255,255,255,0); }
-  50% { box-shadow: 0 0 15px rgba(255,255,255,0.9); }
-  100% { box-shadow: 0 0 0px rgba(255,255,255,0); }
-}
 
-.active-turn {
-  animation: blinkField 1s infinite;
-  transform: scale(1.05);
+@keyframes blinkField{
+  50%{box-shadow:0 0 15px white;}
+}
+.active-turn{
+  animation:blinkField 1s infinite;
 }
 </style>
 </head>
@@ -256,7 +180,6 @@ button:hover{
 </div>
 
 <div class="panel">
-
 <h2>Snake & Ladder</h2>
 
 <select id="playerCount" onchange="toggleInputs()">
@@ -276,91 +199,27 @@ button:hover{
 <div id="turn">Turn: -</div>
 
 <div class="dice-container">
-<div id="dice" class="dice">
-
-<div class="face front">
-  <span class="dot center"></span>
-</div>
-
-<div class="face back">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot ml"></span>
-  <span class="dot mr"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face right">
-  <span class="dot tl"></span>
-  <span class="dot center"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face left">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-<div class="face top">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-</div>
-
-<div class="face bottom">
-  <span class="dot tl"></span>
-  <span class="dot tr"></span>
-  <span class="dot center"></span>
-  <span class="dot bl"></span>
-  <span class="dot br"></span>
-</div>
-
-</div>
+  <div id="dice" class="dice">
+    <div class="face front"><span class="dot center"></span></div>
+  </div>
 </div>
 
 <button onclick="rollDice()">Roll Dice</button>
 <button onclick="restart()">Restart</button>
-
 </div>
 </div>
 
 <div class="popup" id="winnerPopup">
-<div class="popup-content">
-<h2 id="winnerText"></h2>
-<button onclick="closePopup()">Close</button>
-</div>
+  <div class="popup-content">
+    <h2 id="winnerText"></h2>
+    <button onclick="closePopup()">Close</button>
+  </div>
 </div>
 
 <script>
-
-const snakesAndLadders = {
-
-  // 🪜 Ladders
-  5:35,
-  11:48,
-  17:36,
-  23:42,
-  40:59,
-  45:55,
-  49:70,
-  63:84,
-  71:89,
-  74:93,
-
-  // 🐍 Snakes
-  98:76,
-  94:77,
-  72:54,
-  80:58,
-  66:57,
-  69:46,
-  43:15,
-  34:10,
-  28:06,
-  22:04,
-
+const snakesAndLadders={
+  5:35,11:48,17:36,23:42,40:59,45:55,49:70,63:84,71:89,74:93,
+  98:76,94:77,72:54,80:58,66:57,69:46,43:15,34:10,28:6,22:4
 };
 
 let players=[];
@@ -369,189 +228,122 @@ let currentPlayer=0;
 let moving=false;
 let totalPlayers=4;
 
+let lastDice=0;
+let sixCount=0;
+let startPosition=0;
+
 function toggleInputs(){
-totalPlayers=parseInt(playerCount.value);
-for(let i=1;i<=4;i++){
-document.getElementById("name"+i).style.display=
-i<=totalPlayers?"block":"none";
-}
+  totalPlayers=parseInt(playerCount.value);
+  for(let i=1;i<=4;i++)
+    document.getElementById("name"+i).style.display=i<=totalPlayers?"block":"none";
 }
 
 function startGame(){
-totalPlayers=parseInt(playerCount.value);
-players=[
-name1.value||"Player 1",
-name2.value||"Player 2",
-name3.value||"Player 3",
-name4.value||"Player 4"
-];
-currentPlayer=0;
-updateTurn();
+  players=[name1.value||"P1",name2.value||"P2",name3.value||"P3",name4.value||"P4"];
+  currentPlayer=0;
+  updateTurn();
 }
 
 function rollDice(){
-if(moving || players.length===0) return;
-moving=true;
-
-let dice=Math.floor(Math.random()*6)+1;
-
-document.getElementById("diceSound").play();
-
-let diceEl=document.getElementById("dice");
-
-/* base rotations for correct face */
-const baseRotation = {
-1: "rotateX(0deg) rotateY(0deg)",
-2: "rotateX(-90deg) rotateY(0deg)",
-3: "rotateX(0deg) rotateY(-90deg)",
-4: "rotateX(0deg) rotateY(90deg)",
-5: "rotateX(90deg) rotateY(0deg)",
-6: "rotateX(0deg) rotateY(180deg)"
-};
-
-/* add extra spins but keep final face correct */
-let spinX = 720;
-let spinY = 720;
-
-diceEl.style.transform =
-  baseRotation[dice] +
-  ` rotateX(${spinX}deg) rotateY(${spinY}deg)`;
-
-setTimeout(()=>moveStep(dice),1000);
+  if(moving)return;
+  moving=true;
+  lastDice=Math.floor(Math.random()*6)+1;
+  document.getElementById("diceSound").play();
+  moveStep(lastDice);
 }
 
 function getCoords(pos){
-const board=document.getElementById("board");
-const boardWidth=board.offsetWidth;
-const boardHeight=board.offsetHeight;
-const gridTopOffset=85;
-const gridBottomOffset=20;
-const gridHeight=boardHeight-gridTopOffset-gridBottomOffset;
-const cellWidth=boardWidth/10;
-const cellHeight=gridHeight/10;
-let row=Math.floor((pos-1)/10);
-let col=(pos-1)%10;
-if(row%2===1) col=9-col;
-return{
-  left:col*cellWidth+(cellWidth/2)-10,
-  top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-13
-};
+  const board=document.getElementById("board");
+  const cell=board.offsetWidth/10;
+  let row=Math.floor((pos-1)/10);
+  let col=(pos-1)%10;
+  if(row%2) col=9-col;
+  return{
+    left:col*cell+cell/2-10,
+    top:(9-row)*cell+cell/2-10
+  };
 }
 
 function updateToken(i){
-const t=document.getElementById("p"+(i+1));
-const c=getCoords(positions[i]);
-t.style.left=c.left+"px";
-t.style.top=c.top+"px";
+  const t=document.getElementById("p"+(i+1));
+  const c=getCoords(positions[i]);
+  t.style.left=c.left+"px";
+  t.style.top=c.top+"px";
 }
 
 function moveStep(dice){
-let count=0;
-let interval=setInterval(()=>{
-if(count===dice){
-clearInterval(interval);
-afterMove();
-return;
-}
-if(positions[currentPlayer]<100){
-positions[currentPlayer]++;
-updateToken(currentPlayer);
-}
-count++;
-},200);
+  if(positions[currentPlayer]+dice>100){
+    afterMove();
+    return;
+  }
+  let c=0;
+  let interval=setInterval(()=>{
+    if(c===dice){
+      clearInterval(interval);
+      afterMove();
+      return;
+    }
+    positions[currentPlayer]++;
+    updateToken(currentPlayer);
+    c++;
+  },200);
 }
 
 function afterMove(){
-let pos=positions[currentPlayer];
+  let pos=positions[currentPlayer];
+  if(snakesAndLadders[pos]){
+    positions[currentPlayer]=snakesAndLadders[pos];
+    updateToken(currentPlayer);
+  }
 
-if(snakesAndLadders[pos]){
-if(snakesAndLadders[pos]>pos){
-document.getElementById("ladderSound").play();
-}else{
-document.getElementById("snakeSound").play();
-}
-positions[currentPlayer]=snakesAndLadders[pos];
-updateToken(currentPlayer);
-}
+  if(lastDice===6){
+    sixCount++;
+    if(sixCount===1) startPosition=pos;
+    if(sixCount===3){
+      positions[currentPlayer]=startPosition;
+      updateToken(currentPlayer);
+      sixCount=0;
+      currentPlayer=(currentPlayer+1)%totalPlayers;
+    }
+  }else{
+    sixCount=0;
+    currentPlayer=(currentPlayer+1)%totalPlayers;
+  }
 
-cutLogic();
+  if(positions[currentPlayer]===100){
+    showWinner(players[currentPlayer]);
+    return;
+  }
 
-if(positions[currentPlayer]===100){
-showWinner(players[currentPlayer]);
-moving=false;
-return;
-}
-
-currentPlayer=(currentPlayer+1)%totalPlayers;
-updateTurn();
-moving=false;
-}
-
-function cutLogic(){
-for(let i=0;i<totalPlayers;i++){
-if(i!==currentPlayer && positions[i]===positions[currentPlayer]){
-positions[i]=1;
-updateToken(i);
-}
-}
+  updateTurn();
+  moving=false;
 }
 
 function updateTurn(){
-
-  const turnEl=document.getElementById("turn");
-  turnEl.innerText="Turn: "+players[currentPlayer];
-
-  const colors=["#ff6b6b","#4ecdc4","#ffe66d","#c77dff"];
-  turnEl.style.color=colors[currentPlayer];
-
-  // 🔥 Remove blinking from all fields
-  for(let i=1;i<=4;i++){
+  document.getElementById("turn").innerText="Turn: "+players[currentPlayer];
+  for(let i=1;i<=4;i++)
     document.getElementById("name"+i).classList.remove("active-turn");
-  }
-
-  // 🔥 Add blinking to current player field
-  document.getElementById("name"+(currentPlayer+1))
-    .classList.add("active-turn");
+  document.getElementById("name"+(currentPlayer+1)).classList.add("active-turn");
 }
 
 function restart(){
-positions=[1,1,1,1];
-currentPlayer=0;
-for(let i=0;i<4;i++) updateToken(i);
-updateTurn();
+  positions=[1,1,1,1];
+  currentPlayer=0;
+  updateTurn();
+  for(let i=0;i<4;i++) updateToken(i);
 }
 
 function showWinner(name){
-winnerText.innerText=name+" Wins 🎉";
-winnerPopup.classList.add("show");
+  winnerText.innerText=name+" Wins 🎉";
+  winnerPopup.classList.add("show");
 }
-
 function closePopup(){
-winnerPopup.classList.remove("show");
-restart();
+  winnerPopup.classList.remove("show");
+  restart();
 }
 
-window.onload=()=>{
-toggleInputs();
-for(let i=0;i<4;i++) updateToken(i);
-};
-
+window.onload=()=>{toggleInputs();restart();}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
