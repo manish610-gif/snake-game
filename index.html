@@ -364,6 +364,12 @@ setTimeout(()=>moveStep(dice),1000);
 
 function moveStep(dice){
 
+/* exact finish rule */
+if(positions[currentPlayer] + dice > 100){
+afterMove(dice);
+return;
+}
+
 let count=0;
 
 let interval=setInterval(()=>{
@@ -374,10 +380,8 @@ afterMove(dice);
 return;
 }
 
-if(positions[currentPlayer]<100){
 positions[currentPlayer]++;
 updateToken(currentPlayer);
-}
 
 count++;
 
@@ -495,6 +499,7 @@ for(let i=0;i<4;i++) updateToken(i);
 
 </body>
 </html>
+
 
 
 
