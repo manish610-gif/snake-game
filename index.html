@@ -420,29 +420,58 @@ moving=false;
 
 function getCoords(pos){
 
-const board=document.getElementById("board");
-const boardWidth=board.offsetWidth;
-const boardHeight=board.offsetHeight;
+  const board = document.getElementById("board");
+  const boardWidth = board.offsetWidth;
+  const boardHeight = board.offsetHeight;
 
-const gridTopOffset=85;
-const gridBottomOffset=20;
+  /* board.png original aspect ratio */
+  const imgWidth = 1180;
+  const imgHeight = 1300;
+  const imgRatio = imgWidth / imgHeight;
 
-const gridHeight=boardHeight-gridTopOffset-gridBottomOffset;
+  let renderWidth, renderHeight, offsetX, offsetY;
 
-const cellWidth=boardWidth/10;
-const cellHeight=gridHeight/10;
+  /* same math as background-size: contain */
+  if ((boardWidth / boardHeight) > imgRatio) {
+    renderHeight = boardHeight;
+    renderWidth = renderHeight * imgRatio;
+    offsetX = (boardWidth - renderWidth) / 2;
+    offsetY = 0;
+  } else {
+    renderWidth = boardWidth;
+    renderHeight = renderWidth / imgRatio;
+    offsetX = 0;
+    offsetY = (boardHeight - renderHeight) / 2;
+  }
 
-let row=Math.floor((pos-1)/10);
-let col=(pos-1)%10;
+  /* playable grid area inside board image */
+  const gridTopOffset = renderHeight * (118 / 1300);
+  const gridBottomOffset = renderHeight * (2 / 1300);
+  const gridLeftOffset = offsetX;
+  const gridRightOffset = offsetX;
 
-if(row%2===1) col=9-col;
+  const gridWidth = renderWidth;
+  const gridHeight = renderHeight - gridTopOffset - gridBottomOffset;
 
-return{
-left:col*cellWidth+(cellWidth/2)-10,
-top:gridTopOffset+(9-row)*cellHeight+(cellHeight/2)-13
-};
+  const cellWidth = gridWidth / 10;
+  const cellHeight = gridHeight / 10;
 
+  let row = Math.floor((pos - 1) / 10);
+  let col = (pos - 1) % 10;
+
+  if (row % 2 === 1) col = 9 - col;
+
+  const token = document.getElementById("p1");
+  const tokenSize = token ? token.offsetWidth : 26;
+
+  return {
+    left: gridLeftOffset + (col * cellWidth) + (cellWidth / 2) - (tokenSize / 2),
+    top: offsetY + gridTopOffset + ((9 - row) * cellHeight) + (cellHeight / 2) - (tokenSize / 2)
+  };
 }
+window.addEventListener("resize", () => {
+  for(let i = 0; i < 4; i++) updateToken(i);
+});
 
 function updateToken(i){
 const t=document.getElementById("p"+(i+1));
